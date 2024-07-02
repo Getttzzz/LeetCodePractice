@@ -19,24 +19,30 @@ private fun isPalindrome(x: Int): Boolean {
 
     var temp = x
     var divisor = 1
+    var quantity = 0
+
+    val divisorList = mutableListOf<Int>()
 
     while (temp / divisor != 0) {
-        temp = temp - divisor
-        divisor = divisor * 10
-
+        temp -= divisor
+        divisorList.add(divisor)
+        divisor *= 10
+        quantity += 1
 
 //        temp=1233 divisor=10
 //        temp=1223 divisor=100
 //        temp=1123 divisor=1000
 //        temp=123 divisor=10000
 
-        println("temp=$temp divisor=$divisor")
+        println("temp=$temp divisor=$divisor quantity=$quantity")
     }
 
+    println("$divisorList")
 
-//    val result = x / 1000
-//    println("result=$result")
-
+    for (i in 0..< quantity) {
+        val firstDigit = x / divisorList[divisorList.size-1]
+        println("firstDigit=$firstDigit x=$x ")
+    }
 
     return false
 }
