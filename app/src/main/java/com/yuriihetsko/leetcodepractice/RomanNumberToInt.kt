@@ -33,32 +33,50 @@ private fun romanToInt(s: String): Int {
     // 58 -> LVIII (L=50; V=5; III=3) //for I I need to check what's next. It could be I or II or III
     // 59 -> LIX (L=50; IX=9)
     // 60 -> LX (L=50; X=10)
-    //
+    // 61 -> LXI
+    // 62 -> LXII
+    // 63 -> LXIII
+    // 64 -> LXIV
+    // 65 -> LXV
 
     val charList = s.toList()
     var sum = 0
 
-    charList.forEachIndexed { i, char ->
-        val nextChar = if (i < charList.size-1) charList[i + 1] else null
+
+    var i = 0
+    for (char in charList) {
+        val nextChar = if (i < charList.size - 1) charList[i + 1] else null
 
         println("char=$char nextChar=$nextChar")
 
-        sum += when (char) {
+        when (char) {
             'I' -> {
                 when (nextChar) {
-                    null -> 1
-                    'V' -> 4
-                    'X' -> 9
-                    else -> {
-                        if (i < charList.size - 2) 3 else 2
+                    null -> sum+=1
+                    'V' -> sum+=4
+                    'X' -> sum+=9
+                    'I' -> {
+                        val nextNextChar = if (i < charList.size - 2) charList[i+2] else null
+                        println("GETZ.<top>.romanToInt--> nextNextChar=$nextNextChar")
+                        if (nextNextChar != null) {
+                            sum+=3
+                            break
+                        } else {
+                            sum+=2
+                            break
+                        }
                     }
+                    else -> sum+=-999
                 }
             }
-            'V' -> 5
-            'X' -> 10
-            'L' -> 50
-            else -> 0
+
+            'V' -> sum+=5
+            'X' -> sum+=10
+            'L' -> sum+=50
+            else -> sum+=-999
         }
+
+        i++
     }
 
     println("$sum")
