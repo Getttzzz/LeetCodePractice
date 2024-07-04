@@ -1,7 +1,7 @@
 package com.yuriihetsko.leetcodepractice
 
 fun main() {
-
+    println("maxSubArray=${maxSubArray(intArrayOf(-2,1,-3,4,-1,2,1,-5,4))}")
 }
 
 //Given an integer array nums, find the subarray with the largest sum, and return its sum.
@@ -13,7 +13,28 @@ fun main() {
 //Input: nums = [5,4,-1,7,8]
 //Output: 23
 //Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
-private fun maxSubArray(nums: IntArray): Int {
+private fun maxSubArray(array: IntArray): Int {
+    var maxSum = Int.MIN_VALUE
+    var currSum = 0
+
+    array.forEachIndexed { i, element ->
+
+        val nextElement = if(i < array.size-1) array[i+1] else 0
+
+        if (element > maxSum) {
+            currSum += element
+            if (currSum > maxSum) maxSum = currSum; currSum = 0
+        }
+
+        val neighboursSum = element + nextElement
+
+        if (neighboursSum > maxSum) {
+            currSum += neighboursSum
+            if (currSum > maxSum) maxSum = currSum; currSum = 0
+        }
+
+        println("i=$i element=$element nextElement=$nextElement maxSum=$maxSum currSum=$currSum")
+    }
 
 
     return 1
