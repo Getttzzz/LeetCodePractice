@@ -19,21 +19,15 @@ private fun maxSubArray(array: IntArray): Int {
 
     array.forEachIndexed { i, element ->
 
-        val nextElement = if(i < array.size-1) array[i+1] else 0
-
         if (element > maxSum) {
             currSum += element
-            if (currSum > maxSum) maxSum = currSum; currSum = 0
+            if (currSum > maxSum) {
+                maxSum = currSum
+                currSum = 0
+            }
         }
 
-        val neighboursSum = element + nextElement
-
-        if (neighboursSum > maxSum) {
-            currSum += neighboursSum
-            if (currSum > maxSum) maxSum = currSum; currSum = 0
-        }
-
-        println("i=$i element=$element nextElement=$nextElement maxSum=$maxSum currSum=$currSum")
+        println("i=$i element=$element maxSum=$maxSum currSum=$currSum")
     }
 
 
