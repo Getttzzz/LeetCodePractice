@@ -1,9 +1,9 @@
-package com.yuriihetsko.leetcodepractice
+package com.yuriihetsko.leetcodepractice.arraysandhashing
 
 import org.junit.Assert
 import org.junit.Test
 
-class _242_ValidAnagram {
+class _2_ValidAnagram {
 
     @Test
     fun validAnagramTest() {

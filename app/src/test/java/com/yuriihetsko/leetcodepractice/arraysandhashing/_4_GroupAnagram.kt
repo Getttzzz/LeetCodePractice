@@ -1,9 +1,9 @@
-package com.yuriihetsko.leetcodepractice
+package com.yuriihetsko.leetcodepractice.arraysandhashing
 
 import org.junit.Assert
 import org.junit.Test
 
-class GroupAnagramTest {
+class _4_GroupAnagram {
 
     @Test
     fun testCases12345() {
