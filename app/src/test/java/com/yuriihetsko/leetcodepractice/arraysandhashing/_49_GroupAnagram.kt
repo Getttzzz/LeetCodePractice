@@ -3,18 +3,18 @@ package com.yuriihetsko.leetcodepractice.arraysandhashing
 import org.junit.Assert
 import org.junit.Test
 
-class _4_GroupAnagram {
+class _49_GroupAnagram {
 
     @Test
     fun testCases12345() {
         Assert.assertEquals(
-            listOf(listOf("hat"), listOf("act", "cat"), listOf("stop", "pots", "tops")),
+            listOf(listOf("hat"), listOf("aaact", "cataa"), listOf("stop", "pots", "tops")),
             getGroupedAnagram(
                 listOf(
-                    "act",
+                    "aaact",
+                    "cataa"
 //                    "pots",
 //                    "tops",
-//                    "cat",
 //                    "stop",
 //                    "hat",
                 )
@@ -29,11 +29,14 @@ class _4_GroupAnagram {
     //
     // Input: strs = ["act","pots","tops","cat","stop","hat"]
     // Output: [["hat"],["act","cat"],["stop","pots","tops"]]
+
+    // preFinalHashMap = {30100000000000000000100000 -> ["aact"], ...}
     //
     fun getGroupedAnagram(strsOriginal: List<String>): List<List<String>> {
-        val alphabet: String = ('a'..'z').joinToString(separator = "")
         val strSet = strsOriginal.toSet()
         val listOfLists = mutableListOf<List<String>>()
+
+        val preFinalMap = hashMapOf<String, List<String>>()
 
         // Create an int array with 26 items.
         // Count frequency of each letter.
@@ -41,13 +44,26 @@ class _4_GroupAnagram {
         // For "act" it will be: "abcdefghijklmnopqrstuvwxyz" -> "10100000000000000000100000"
 
         strSet.forEachIndexed { i, curr ->
-            val alphabetMap = hashMapOf<Char, Int>()
+            val alphabetMap = linkedMapOf<Char, Int>().apply {
+                for (c in 'a'..'z'){
+                    this[c] = 0
+                }
+            }
 
             curr.toCharArray().forEach { char ->
                 alphabetMap[char] = alphabetMap.getOrElse(char) { 0 } + 1
             }
 
             println("GETZ.GroupAnagramTest.getGroupedAnagram--> i=$i curr=$curr alphabetMap=${alphabetMap}")
+            //curr=aact; alphabetMap={a=3, b=0, c=1, d=0, e=0, f=0, g=0, h=0, i=0, j=0, k=0, l=0, m=0, n=0, o=0, p=0, q=0, r=0, s=0, t=1, u=0, v=0, w=0, x=0, y=0, z=0}
+
+            val uniqueKeyForAnagram = alphabetMap.map {
+                it.value
+            }.joinToString("")
+
+            println("GETZ._49_GroupAnagram.getGroupedAnagram--> uniqueKeyForAnagram=$uniqueKeyForAnagram")
+
+            preFinalMap.put(uniqueKeyForAnagram, )
         }
 
         return listOfLists
