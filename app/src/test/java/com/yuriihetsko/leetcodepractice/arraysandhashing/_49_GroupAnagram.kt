@@ -6,19 +6,48 @@ import org.junit.Test
 class _49_GroupAnagram {
 
     @Test
-    fun testCases12345() {
+    fun case1() {
         Assert.assertEquals(
-            listOf(listOf("hat"), listOf("aaact", "cataa"), listOf("stop", "pots", "tops")),
-            getGroupedAnagram(
+            listOf(
+                listOf("hat"),
+                listOf("act", "cat"),
+                listOf("pots", "tops", "stop")
+            ),
+            groupAnagrams(
                 listOf(
-                    "aaact",
-                    "cataa"
-//                    "pots",
-//                    "tops",
-//                    "stop",
-//                    "hat",
+                    "act",
+                    "cat",
+                    "pots",
+                    "tops",
+                    "stop",
+                    "hat",
                 )
             )
+        )
+    }
+
+    @Test
+    fun case2() {
+        Assert.assertEquals(
+            listOf(listOf("")),
+            groupAnagrams(listOf(""))
+        )
+
+    }
+
+    @Test
+    fun case3() {
+        Assert.assertEquals(
+            listOf(listOf("", "")),
+            groupAnagrams(listOf("", ""))
+        )
+    }
+
+    @Test
+    fun case4() {
+        Assert.assertEquals(
+            listOf(listOf("bbbbbbbbbbc"), listOf("bdddddddddd")),
+            groupAnagrams(listOf("bdddddddddd", "bbbbbbbbbbc"))
         )
     }
 
@@ -32,55 +61,32 @@ class _49_GroupAnagram {
 
     // preFinalHashMap = {30100000000000000000100000 -> ["aact"], ...}
     //
-    fun getGroupedAnagram(strsOriginal: List<String>): List<List<String>> {
-        val strSet = strsOriginal.toSet()
-        val listOfLists = mutableListOf<List<String>>()
+    fun groupAnagrams(strs: List<String>): List<List<String>> {
+        val finalMap = hashMapOf<String, ArrayList<String>>()
 
-        val preFinalMap = hashMapOf<String, List<String>>()
-
-        // Create an int array with 26 items.
-        // Count frequency of each letter.
-        // This will be the key in hashmap for an unique anagram.
-        // For "act" it will be: "abcdefghijklmnopqrstuvwxyz" -> "10100000000000000000100000"
-
-        strSet.forEachIndexed { i, curr ->
-            val alphabetMap = linkedMapOf<Char, Int>().apply {
-                for (c in 'a'..'z'){
+        strs.forEach { curr ->
+            val linkedMap = linkedMapOf<Char, Int>().apply {
+                for (c in 'a'..'z') {
                     this[c] = 0
                 }
             }
 
-            curr.toCharArray().forEach { char ->
-                alphabetMap[char] = alphabetMap.getOrElse(char) { 0 } + 1
+            if (curr.isEmpty()) {
+                linkedMap['a'] = linkedMap.getOrDefault('a', 0)
             }
 
-            println("GETZ.GroupAnagramTest.getGroupedAnagram--> i=$i curr=$curr alphabetMap=${alphabetMap}")
-            //curr=aact; alphabetMap={a=3, b=0, c=1, d=0, e=0, f=0, g=0, h=0, i=0, j=0, k=0, l=0, m=0, n=0, o=0, p=0, q=0, r=0, s=0, t=1, u=0, v=0, w=0, x=0, y=0, z=0}
+            curr.toCharArray().forEach { char ->
+                linkedMap[char] = linkedMap.getOrElse(char) { 0 } + 1
+            }
 
-            val uniqueKeyForAnagram = alphabetMap.map {
-                it.value
-            }.joinToString("")
+            val keyWithZeros = linkedMap.values.joinToString(separator = "#")
 
-            println("GETZ._49_GroupAnagram.getGroupedAnagram--> uniqueKeyForAnagram=$uniqueKeyForAnagram")
+            finalMap.getOrPut(keyWithZeros) { arrayListOf() }
+                .add(curr)
 
-            preFinalMap.put(uniqueKeyForAnagram, )
+            println("GETZ._49_GroupAnagram.groupAnagrams--> finalMap=$finalMap")
         }
 
-        return listOfLists
-    }
-
-    fun isAnagram(str: String, target: String): Boolean {
-        val map1 = hashMapOf<Char, Int>()
-        val map2 = hashMapOf<Char, Int>()
-
-        str.toCharArray().forEach { char ->
-            map1[char] = map1.getOrElse(char) { 0 } + 1
-        }
-
-        target.toCharArray().forEach { char ->
-            map2[char] = map2.getOrElse(char) { 0 } + 1
-        }
-
-        return map1 == map2
+        return finalMap.values.toList()
     }
 }
