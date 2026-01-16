@@ -3,7 +3,7 @@ package com.yuriihetsko.leetcodepractice.arraysandhashing
 import org.junit.Assert
 import org.junit.Test
 
-class _49_GroupAnagram {
+class _4_GroupAnagram {
 
     @Test
     fun case1() {
